@@ -201,7 +201,12 @@ double median( UDF_INIT* initid, UDF_ARGS* args, char* is_null, char* is_error )
   qsort(buffer->values,buffer->abscount,sizeof(double),compare_doubles);
 
   unsigned long bufindex = (ulong) ((((double)buffer->abscount - 1.0) * (double)buffer->percentile) / 100.0);
-  return buffer->values[bufindex];
+  if ( buffer->abscount % 2 == 0)
+  {
+      return (buffer->values[bufindex] + buffer->values[bufindex+1]) / 2;
+  } else {
+      return buffer->values[bufindex];
+  }
 }
 
 /* #endif */
